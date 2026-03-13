@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Face Recognition System</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1>Facial Recognition System</h1>
+
+        <h2>LIVE CAMERA</h2>
+        <img src="/video" width="900">
+
+        <br><br>
+
+        <div class="input-row">
+            <input id="name" placeholder="Enter name">
+            <input id="id" placeholder="Enter ID">
+        </div>
+
+        <div class="button-row">
+            <button onclick="registerUser()">Register Face</button>
+            <button onclick="recognizeFace()">Recognize</button>
+        </div>
+
+        <h2 id="result"></h2>
+        
+        <script src="/static/script.js"></script>
+    </body>
+</html>
