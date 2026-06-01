@@ -1,36 +1,121 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Face Recognition System</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
-        <h1>Facial Recognition System</h1>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Face Recognition System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-        <h2>LIVE CAMERA</h2>
-        <img src="/video" width="900">
+  <!-- Top navbar -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="dot"></span>
+      <span class="nav-title">FACELOCK <span class="nav-version">v1.0</span></span>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot active"></span>
+      <span>SYSTEM ONLINE</span>
+    </div>
+  </nav>
 
-        <br><br>
+  <!-- Main layout -->
+  <div class="main-layout">
 
-        <div class="input-row">
-            <input id="name" placeholder="Enter name">
-            <input id="id" placeholder="Enter ID">
+    <!-- Left: Camera Feed -->
+    <div class="camera-section">
+      <div class="section-label">LIVE FEED</div>
+      <div class="camera-wrapper">
+        <div class="scan-overlay">
+          <div class="corner tl"></div>
+          <div class="corner tr"></div>
+          <div class="corner bl"></div>
+          <div class="corner br"></div>
+          <div class="scan-line"></div>
         </div>
+        <img src="/video" alt="Live Camera Feed" />
+      </div>
+      <div class="camera-footer">
+        <span class="tag">● REC</span>
+        <span class="tag">HAAR CASCADE ACTIVE</span>
+        <span class="tag">LBPH MODEL LOADED</span>
+      </div>
+    </div>
 
-        <div class="button-row">
-            <button onclick="registerUser()">Register Face</button>
-            <button onclick="recognizeFace()">Recognize</button>
+    <!-- Right: Control Panel -->
+    <div class="control-panel">
+
+      <!-- Register Card -->
+      <div class="card" id="register-card">
+        <div class="card-header">
+          <span class="card-icon">⊕</span>
+          <span class="card-title">REGISTER FACE</span>
         </div>
+        <div class="card-body">
+          <div class="input-group">
+            <label>Full Name</label>
+            <input id="name" type="text" placeholder="e.g. Navya Sharma" autocomplete="off"/>
+          </div>
+          <div class="input-group">
+            <label>User ID</label>
+            <input id="id" type="text" placeholder="e.g. 001" autocomplete="off"/>
+          </div>
+          <button class="btn btn-register" id="register-btn" onclick="registerUser()">
+            <span class="btn-text">CAPTURE &amp; TRAIN</span>
+            <span class="btn-loader" style="display:none;">⏳ PROCESSING...</span>
+          </button>
+        </div>
+      </div>
 
-        <h2 id="result"></h2>
-        
-        <script src="/static/script.js"></script>
-    </body>
+      <!-- Recognize Card -->
+      <div class="card" id="recognize-card">
+        <div class="card-header">
+          <span class="card-icon">◎</span>
+          <span class="card-title">IDENTIFY PERSON</span>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Point the camera at a registered face and click Identify to run recognition.</p>
+          <button class="btn btn-recognize" id="recognize-btn" onclick="recognizeFace()">
+            <span class="btn-text">⚡ IDENTIFY FACE</span>
+            <span class="btn-loader" style="display:none;">🔍 SCANNING...</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="card result-card" id="result-card">
+        <div class="card-header">
+          <span class="card-icon">✦</span>
+          <span class="card-title">RECOGNITION RESULT</span>
+        </div>
+        <div class="card-body">
+          <div id="result-display" class="result-display">
+            <span class="result-idle">Awaiting scan...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notification -->
+      <div id="toast" class="toast"></div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>FACELOCK v1.0</span>
+    <span>HAAR CASCADE · LBPH · OPENCV</span>
+    <span id="clock"></span>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    (function tick() {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+      setTimeout(tick, 1000);
+    })();
+  </script>
+</body>
 </html>
